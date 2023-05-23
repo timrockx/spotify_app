@@ -86,9 +86,20 @@ app.get('/callback', (req, res) => {
         })
         .catch(err => {
             console.log('Authorization Code Grant Error: ', err);
+        }) 
+});
+
+app.get('/me', (req, res) => {
+
+    spotifyApi.getMe()
+        .then(data => {
+            console.log(data.body);
+            res.send(data.body);
         })
-    
-})
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:102 ~ app.get ~ err:", err)
+        })
+});     
 
 
 app.listen(PORT, () => {
