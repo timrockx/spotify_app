@@ -41,7 +41,11 @@ var spotifyApi = new SpotifyWebApi({
 // will redirect to the callback URL on success
 app.get('/login', (req, res) => {
     var state = generateRandomString(16);
-    var scopes = ['user-read-private', 'user-read-email'];
+
+    // user-top-read for top artists, etc.
+    // user-read-private & user-read-email for profile info
+    // use-read-playback-state for status
+    var scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-follow-read'];
     res.redirect(spotifyApi.createAuthorizeURL(scopes, state));
 });
 
@@ -75,7 +79,8 @@ app.get('/callback', (req, res) => {
             // interval for refreshing the token
             setInterval(async () => {
                 const data = await spotifyApi.refreshAccessToken();;
-                const access_token = data.body['access_token'];
+                spotify.setAccessToken(data.body['access_token']);
+                console.log('refreshing token: ', data.body['access_token']);
             }, expires_in / 2 * 1000);
 
             // redirect and pass token to the browser
@@ -89,19 +94,76 @@ app.get('/callback', (req, res) => {
         }) 
 });
 
+// get user profile
 app.get('/me', (req, res) => {
+
 
     spotifyApi.getMe()
         .then(data => {
-            console.log(data.body);
+            console.log('my profile: ', data.body);
             res.send(data.body);
         })
         .catch(err => {
-            console.log("🚀 ~ file: server.js:102 ~ app.get ~ err:", err)
+            console.log("🚀 ~ file: server.js:106 ~ app.get me ~ err:", err)
         })
-});     
+});
 
 
+// get users followings
+app.get('/following', (req, res) => {
+
+    spotifyApi.getFollowedArtists()
+        .then(data => {
+            // console.log('followed artists: ', data.body);
+            res.send(data.body);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:120 ~ app.get following ~ err:", err)
+        })
+})
+
+// playback state if user is active
+app.get('/playback-state', (req, res) => {
+
+    spotifyApi.getMyCurrentPlaybackState()
+        .then(data => {
+            // console.log('playback state: ', data.body);
+            res.send(data.body.device);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:133 ~ app.get playback ~ err:", err)
+        })
+});
+
+
+// top artists
+app.get('/top-artists', (req, res) => {
+
+    spotifyApi.getMyTopArtists()
+        .then(data => {
+            // console.log('top artists: ', data.body.items);
+            res.send(data.body.items);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:147 ~ app.get top artists~ err:", err.message)
+        })
+});
+
+// top tracks
+app.get('/top-tracks', (req, res) => {
+
+    spotifyApi.getMyTopTracks()
+        .then(data => {
+            console.log('top tracks: ', data.body.items[0].artists);
+            res.send(data.body.items);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:160 ~ app.get top tracks ~ err:", err)
+        })
+});
+
+
+// app on port 8888
 app.listen(PORT, () => {
     console.log(`Server listening on ${PORT}`);
 });

@@ -1,17 +1,14 @@
 import { useState, useEffect } from 'react';
 import { Button } from '@mui/material';
 import axios from 'axios';
-import ProfileCard from './ProfileCard';
+import ProfileHeading from './ProfileHeading';
+import UserTops from './UserTops';
 
 export default function ({ accessToken }) {
 
-    // profile fields
+    // profile object
     const [profile, setProfile] = useState(null);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [country, setCountry] = useState('');
-    const [isPremium, setIsPremium] = useState(null);
-
+    const [following, setFollowing] = useState(null);
 
     // on page load get the information of the signed in user
     useEffect(() => {
@@ -23,28 +20,44 @@ export default function ({ accessToken }) {
             .catch(err => {
                 console.log("🚀 ~ file: Profile.jsx:27 ~ getProfile ~ err:", err);
             })
+        };
+
+        const getFollowing = async() => {
+            axios.get('http://localhost:8888/following')
+            .then(res => {
+                setFollowing(res.data.artists.items.length);
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Profile.jsx:31 ~ getFollowing ~ err:", err);
+            })
         }
 
         getProfile();
+        getFollowing();
 
     }, []);
-    
 
 
   return (
-    <div className='h-screen bg-[#FAFAFA]'>
+    <div className='min-h-screen bg-[#1b1b1b]'>
 
-        <div className='flex flex-col justify-center items-center p-12 w-3/5 m-auto'>
-            <h1 className='text-4xl font-gotham py-5 border-solid border-b-2 border-black'>Unlock Your Spotify Data</h1>
-        </div>
-
-        <div className='p-20 flex justify-center items-center'>
+        <div className='flex flex-col justify-center items-center'>
             {profile ? 
-                <ProfileCard name={profile.display_name} email={profile.email} country={profile.country} premium={profile.product === 'premium' ? true : false} image={profile.images[0].url} /> : null
+                <ProfileHeading 
+                    name={profile.display_name} 
+                    image={profile.images[0].url} 
+                    link={profile.external_urls.spotify}
+                    followers={profile.followers.total}
+                    following={following}
+                /> : null
             }   
         </div>
-        
-        
+
+        <div className='flex flex-col justify-center items-center pb-10'>
+            <h1 className='text-white text-4xl pb-5'>Recent Top Songs</h1>
+            <UserTops />
+        </div>
+
     </div>
   )
 }
