@@ -1,7 +1,7 @@
 // environment variables
 const CLIENT_ID = 'f03a76b3fb034d56ada610ef7d38d48a'
 const CLIENT_SECRET = 'b9e98d2a39ca4bbcaff6b9e4cf531744'
-let REDIRECT_URI = 'http://localhost:8888/callback';
+let REDIRECT_URI = 'https://spotify-app-server.onrender.com/callback';
 let FRONTEND_URI = 'http://localhost:3000';
 const PORT = process.env.PORT || 8888;
 
