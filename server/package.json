@@ -11,5 +11,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index.js"
+  },
+  "devDependencies": {
+    "@vercel/node": "^2.14.3"
   }
 }
