@@ -3,8 +3,8 @@ import { Chip, Avatar } from '@mui/material';
 
 export default function Artist({ name, link, genres, image }) {
   return (
-    <div className='p-5 h-64 w-80 flex flex-col justify-center items-center m-auto border-white border-solid border-2 rounded-lg'>
-        <Avatar alt={name} src={image} sx={{ width: 56, height: 56 }} />
+    <div className='p-2 h-64 w-80 flex flex-col justify-center items-center m-auto border-white border-solid border-2 rounded-lg shadow-xl'>
+        <Avatar alt={name} src={image} sx={{ width: 80, height: 80 }} />
         <h1 className='pt-3'>
             <a href={link} target='_blank' className='text-white text-xl hover:text-[#1ED760]'>{name}</a>
         </h1>

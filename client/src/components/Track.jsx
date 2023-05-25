@@ -3,24 +3,38 @@ import { Avatar } from '@mui/material';
 
 export default function Track({ name, link, album, image, artists }) {
   return (
-    <div className='p-5 h-80 w-96 flex flex-col justify-start items-center m-auto border-white border-solid border-2 rounded-lg'>
-        <Avatar alt={name} src={image} variant='square' sx={{ width: 90, height: 90}}/>
-        <h1 className='text-white text-xl py-5'>
-            <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a>
-        </h1>
-        <h1 className='text-white text-lg pb-3'>{album}</h1>
+    <div className='px-24 w-screen flex flex-row shrink-0 justify-start items-center m-auto rounded-lg shadow-2xl'>
+        <Avatar alt={name} src={image} variant='square' sx={{ width: 72, height: 72 }}/>
 
-        <div className='w-full flex flex-row justify-center items-center p-5'>
-            {artists?.map((artist, index) => {
-                return (
-                    <div key={index}>
-                        <h2 className='text-white text-md px-1'>
-                            <a href={artist.external_urls.spotify} target='_blank' className='hover:underline hover:text-[#1ED760]'>{artist.name}</a>
-                        </h2>
-                    </div>
-                )
-            })}
+        <div className='flex flex-col justify-start items-start w-full p-5'>
+
+
+            <h1 className='text-white text-xl py-2'>
+                <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a>
+            </h1>
+
+            <div className='flex flex-row justify-start items-center'>
+                {artists?.map((artist, index) => {
+                    return (
+                        <div key={index}>
+                            <h2 className='text-white text-md px-1'>
+                                <a href={artist.external_urls.spotify} target='_blank' className='hover:underline hover:text-[#1ED760]'>{artist.name}</a>
+                            </h2>
+                        </div>
+                    )
+                })}
+                
+                <h1 className='text-white text-md'>&#183; {album}</h1>
+            </div>
         </div>
+
+        <div className='text-white flex justify-center items-center px-5'>
+                <h1>4:51</h1>
+        </div>
+
+        
+
+
         
 
     </div>

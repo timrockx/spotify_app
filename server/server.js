@@ -8,6 +8,7 @@ const PORT = 8888;
 
 // import packages and required files
 const express = require('express');
+const bodyParser = require('body-parser');
 const cors = require('cors');
 const querystring = require('querystring');
 var SpotifyWebApi = require('spotify-web-api-node');
@@ -27,6 +28,8 @@ const generateRandomString = (length) => {
 // create express app instance with cors enabled
 var app = express();
 app.use(cors());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 
 // instantiate the spotify web api wrapper
@@ -35,6 +38,11 @@ var spotifyApi = new SpotifyWebApi({
     clientSecret: CLIENT_SECRET,
     redirectUri: REDIRECT_URI
 });
+
+
+app.get('/', (req, res) => {
+    res.send('Spotify App Server');
+})
 
 
 // login route will create an authorization url that the user must accept
@@ -79,7 +87,7 @@ app.get('/callback', (req, res) => {
             // interval for refreshing the token
             setInterval(async () => {
                 const data = await spotifyApi.refreshAccessToken();;
-                spotify.setAccessToken(data.body['access_token']);
+                spotifyApi.setAccessToken(data.body['access_token']);
                 console.log('refreshing token: ', data.body['access_token']);
             }, expires_in / 2 * 1000);
 
@@ -154,7 +162,7 @@ app.get('/top-tracks', (req, res) => {
 
     spotifyApi.getMyTopTracks()
         .then(data => {
-            console.log('top tracks: ', data.body.items[0].artists);
+            // console.log('top tracks: ', data.body.items[0].artists);
             res.send(data.body.items);
         })
         .catch(err => {

@@ -54,7 +54,6 @@ export default function ({ accessToken }) {
         </div>
 
         <div className='flex flex-col justify-center items-center pb-10'>
-            <h1 className='text-white text-4xl pb-5'>Recent Top Songs</h1>
             <UserTops />
         </div>
 
