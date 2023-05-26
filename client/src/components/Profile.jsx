@@ -9,7 +9,6 @@ export default function ({ accessToken }) {
     // profile object
     const [profile, setProfile] = useState(null);
     const [following, setFollowing] = useState(null);
-
     let backendURL = 'https://spotify-app-server.onrender.com';
 
     // on page load get the information of the signed in user
@@ -41,11 +40,12 @@ export default function ({ accessToken }) {
 
 
   return (
-    <div className='min-h-screen bg-[#1b1b1b]'>
+    <div className='min-h-screen min-w-screen bg-[#1b1b1b] overflow-hidden'>
 
         <div className='flex flex-col justify-center items-center'>
             {profile ? 
                 <ProfileHeading 
+                    id={profile.id}
                     name={profile.display_name} 
                     image={profile.images[0]?.url} 
                     link={profile.external_urls.spotify}

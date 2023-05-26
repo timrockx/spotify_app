@@ -8,6 +8,7 @@ function App() {
 
   useEffect(() => {
     setAccessToken(new URLSearchParams(window.location.search).get('access_token'));
+    // window.history.pushState({}, document.title, "/");
   }, [])
 
   return (
