@@ -27,7 +27,13 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
 
         getPlaylists();
 
-    }, [])
+    }, []);
+
+    // handle logout for user (return to landing page)
+    const logOut = () => {
+        window.history.pushState({}, document.title, "/");
+        window.location.reload();
+    }
 
 
 
@@ -55,7 +61,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
         </div>
 
         <div className='flex justify-center items-center pt-8'>
-            <button className='text-white rounded-full border-solid border-white border-2 p-3 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black'>
+            <button className='text-white rounded-full border-solid border-white border-2 p-3 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
                 Sign Out
             </button>
         </div>
