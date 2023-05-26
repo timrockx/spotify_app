@@ -61,7 +61,8 @@ app.get('/login', (req, res) => {
     // user-read-private & user-read-email for profile info
     // use-read-playback-state for status
     var scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-follow-read'];
-    res.redirect(spotifyApi.createAuthorizeURL(scopes, state));
+    var showDialog = true;
+    res.redirect(spotifyApi.createAuthorizeURL(scopes, state, showDialog));
 });
 
 // callback route after user accepts authorization
@@ -111,7 +112,6 @@ app.get('/callback', (req, res) => {
 
 // get user profile
 app.get('/me', (req, res) => {
-
 
     spotifyApi.getMe()
         .then(data => {
