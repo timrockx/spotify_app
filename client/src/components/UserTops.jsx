@@ -8,10 +8,12 @@ export default function UserTops() {
     const [topArtists, setTopArtists] = useState([]);
     const [topTracks, setTopTracks] = useState([]);
 
+    let backendURL = 'https://spotify-app-server.onrender.com';
+
     useEffect(() => {
 
         const getArtists = () => {
-            axios.get('http://localhost:8888/top-artists')
+            axios.get(`${backendURL}/top-artists`)
                 .then(res => {
                     setTopArtists(res.data);
                 })
@@ -21,7 +23,7 @@ export default function UserTops() {
         };
 
         const getTracks = () => {
-            axios.get('http://localhost:8888/top-tracks')
+            axios.get(`${backendURL}/top-tracks`)
                 .then(res => {
                     setTopTracks(res.data);
                 })

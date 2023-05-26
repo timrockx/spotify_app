@@ -10,10 +10,12 @@ export default function ({ accessToken }) {
     const [profile, setProfile] = useState(null);
     const [following, setFollowing] = useState(null);
 
+    let backendURL = 'https://spotify-app-server.onrender.com';
+
     // on page load get the information of the signed in user
     useEffect(() => {
         const getProfile = async() => {
-            axios.get('http://localhost:8888/me')
+            axios.get(`${backendURL}/me`)
             .then(res => {
                 setProfile(res.data);
             })
@@ -23,7 +25,7 @@ export default function ({ accessToken }) {
         };
 
         const getFollowing = async() => {
-            axios.get('http://localhost:8888/following')
+            axios.get(`${backendURL}/following`)
             .then(res => {
                 setFollowing(res.data.artists.items.length);
             })
@@ -45,7 +47,7 @@ export default function ({ accessToken }) {
             {profile ? 
                 <ProfileHeading 
                     name={profile.display_name} 
-                    image={profile.images[0].url} 
+                    image={profile.images[0]?.url} 
                     link={profile.external_urls.spotify}
                     followers={profile.followers.total}
                     following={following}

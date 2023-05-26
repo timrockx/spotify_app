@@ -3,7 +3,10 @@ import { Button } from '@mui/material';
 
 export default function Login() {
 
-    const LOGIN_URI = 'http://localhost:8888/login';
+    // const LOGIN_URI = 'http://localhost:8888/login';
+    let backendURL = 'https://spotify-app-server.onrender.com';
+
+    const LOGIN_URI = `${backendURL}/login`;
 
   return (
     <div className="min-h-screen bg-[#000] flex flex-col justify-center items-center">
