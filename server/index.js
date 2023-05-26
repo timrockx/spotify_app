@@ -115,7 +115,7 @@ app.get('/me', (req, res) => {
 
     spotifyApi.getMe()
         .then(data => {
-            console.log('my profile: ', data.body);
+            // console.log('my profile: ', data.body);
             res.send(data.body);
         })
         .catch(err => {
@@ -176,6 +176,22 @@ app.get('/top-tracks', (req, res) => {
             console.log("🚀 ~ file: server.js:160 ~ app.get top tracks ~ err:", err)
         })
 });
+
+
+// get user playlists
+app.get('/playlists', (req, res) => {
+
+    const userId = req.body.userId;
+
+    spotifyApi.getUserPlaylists(userId)
+        .then(data => {
+            // console.log('playlists: ', data.body.items[0].images[0].url);
+            res.send(data.body.items);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:190 ~ app.get playlists ~ err:", err)
+        })
+})
 
 
 // app on port 8888
