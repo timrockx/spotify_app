@@ -1,9 +1,9 @@
 ## Spotify Profile App
 
-#### Last Modified: May 26, 2023
+#### Last Modified: May 26, 2023  
 
-<br />
-[View the Application](https://spotify-app-ruddy-one.vercel.app/)   
+
+[Visit the Application](https://spotify-app-ruddy-one.vercel.app/)   
 
 
 ***Note: The app is currently running on a development mode under the Spotify API, hence only invited users can access the application. To gain access, please contact me at timothyyinlee@gmail.com.***
