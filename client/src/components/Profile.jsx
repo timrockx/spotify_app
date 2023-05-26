@@ -51,7 +51,7 @@ export default function ({ accessToken }) {
                 <ProfileHeading 
                     id={profile.id}
                     name={profile.display_name} 
-                    image={profile.images[0].url} 
+                    image={profile.images[0]?.url} 
                     link={profile.external_urls.spotify}
                     followers={profile.followers.total}
                     following={following}

@@ -72,7 +72,7 @@ export default function UserTops() {
                     {artistsDisplay?.map((artist, index) => {
                             return (
                                 <div key={index} className='px-5'>
-                                    <Artist name={artist.name} link={artist.external_urls.spotify} genres={artist.genres} image={artist.images[0].url} />
+                                    <Artist name={artist.name} link={artist.external_urls.spotify} genres={artist.genres} image={artist.images[0]?.url} />
                                 </div>
                             )
                     })}
