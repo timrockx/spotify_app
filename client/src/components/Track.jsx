@@ -1,7 +1,7 @@
 import React from 'react';
 import { Avatar } from '@mui/material';
 
-export default function Track({ name, link, album, image, artists, length }) {
+export default function Track({ name, link, album, image, artists, length, popularity }) {
 
     const msToMinutesAndSeconds = (ms) => {
         var minutes = Math.floor(ms / 60000);
@@ -35,9 +35,15 @@ export default function Track({ name, link, album, image, artists, length }) {
             </div>
         </div>
 
+        {!length  ? 
         <div className='text-white flex justify-center items-center px-5'>
-                <h1>{msToMinutesAndSeconds(length)}</h1>
+            <h1>{popularity}</h1>
         </div>
+        :
+        <div className='text-white flex justify-center items-center px-5'>
+            <h1>{msToMinutesAndSeconds(length)}</h1>
+        </div>
+        }
 
         
 
