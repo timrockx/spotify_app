@@ -191,7 +191,43 @@ app.get('/playlists', (req, res) => {
         .catch(err => {
             console.log("🚀 ~ file: server.js:190 ~ app.get playlists ~ err:", err)
         })
-})
+});
+
+
+// get recommendations
+app.get('/recommendations', (req, res) => {
+
+    let seed_artists = [];
+
+    spotifyApi.getMyTopArtists()
+    .then(data => {
+        // console.log('top artists: ', data.body.items[0].id);
+        seed_artists.push(data.body.items[0].id);
+        seed_artists.push(data.body.items[1].id);
+
+        spotifyApi.getRecommendations({
+            seed_artists: seed_artists,
+            min_energy: 0.4,
+            min_popularity: 50,
+            limit: 5
+        })
+        .then(data => {
+            res.send(data.body.tracks);
+            console.log('recommendations: ', data.body.tracks);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:209 ~ app.get recommendations ~ err:", err)
+        })
+
+    })
+    .catch(err => {
+        console.log("🚀 ~ file: server.js:147 ~ app.get top artists~ err:", err.message)
+    })
+
+    
+
+    
+});
 
 
 // app on port 8888
