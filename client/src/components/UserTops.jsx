@@ -58,7 +58,7 @@ export default function UserTops() {
     <div className='flex flex-col px-40'>
 
         <Tabs selectedTabClassName='text-[#1ED760]' focusTabOnClick={false}>
-            <TabList className='text-3xl text-white text-center pb-8 flex justify-around items-center'>
+            <TabList className='text-3xl text-[#D3D3D3] text-center pb-8 flex justify-around items-center'>
                 <Tab className='hover:scale-110 hover:cursor-pointer'>Top Artists</Tab>
                 <Tab className='hover:scale-110 hover:cursor-pointer'>Top Songs</Tab>
             </TabList>
@@ -79,7 +79,7 @@ export default function UserTops() {
                 </div>
 
                 <div className='flex flex-col justify-center items-center pt-8 m-auto'>
-                    <button type='button' className='text-white rounded-full border-solid border-white border-2 p-3 my-2 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={() => setExpandedArtists(!expandedArtists)}>
+                    <button type='button' className='text-white text-center rounded-full border-solid border-white border-2 py-3 px-7 my-2 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={() => setExpandedArtists(!expandedArtists)}>
                         {expandedArtists ? 'Show Less' : 'Show More'}
                     </button>
                 </div>
@@ -94,14 +94,14 @@ export default function UserTops() {
                     {tracksDisplay?.map((track, index) => {
                         return (
                             <div key={index}>
-                                <Track name={track.name} link={track.external_urls.spotify} album={track.album.name} image={track.album.images[0].url} artists={track.artists} length={track.duration_ms} />
+                                <Track id={track.id} name={track.name} link={track.external_urls.spotify} album={track.album.name} image={track.album.images[0].url} artists={track.artists} length={track.duration_ms} />
                             </div>
                         )
                     })}    
                 </div>
 
                 <div className='flex flex-col justify-center items-center pt-8 m-auto'>
-                    <button type='button' className='text-white rounded-full border-solid border-white border-2 p-3 my-2 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={() => setExpandedTracks(!expandedTracks)}>
+                    <button type='button' className='text-white text-center rounded-full border-solid border-white border-2 py-3 px-7 my-2 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={() => setExpandedTracks(!expandedTracks)}>
                         {expandedTracks ? 'Show Less' : 'Show More'}
                     </button>
                 </div>

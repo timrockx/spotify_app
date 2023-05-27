@@ -83,7 +83,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
             {recommendations?.map((rec, index) => {
                 return (
                     <div key={index}>
-                        <Track name={rec.name} link={rec.external_urls.spotify} album={rec.album.name} image={rec.album.images[0]?.url} artists={rec.artists} popularity={rec.popularity} />
+                        <Track id={rec.id} name={rec.name} link={rec.external_urls.spotify} album={rec.album.name} image={rec.album.images[0]?.url} artists={rec.artists} popularity={rec.popularity} />
                     </div>
                 )
             })}
@@ -91,10 +91,10 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
         }
 
         <div className='flex flex-row justify-around items-center pt-8'>
-            <button className='text-white rounded-full border-solid border-white border-2 p-3 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={toggleRecommendations}>
-                Recommendations
+            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={toggleRecommendations}>
+                {showRecommendations ? 'Hide Recommendations' : 'Show Recommendations'}
             </button>
-            <button className='text-white rounded-full border-solid border-white border-2 p-3 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
+            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
                 Sign Out
             </button>            
         </div>
