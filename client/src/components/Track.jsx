@@ -1,8 +1,9 @@
-import React from 'react';
+import { useRef } from 'react';
 import { Avatar, Icon } from '@mui/material';
 import axios from 'axios';
 import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import { ToastContainer, toast } from 'react-toastify';
 
 export default function Track({ id, name, link, album, image, artists, length, popularity }) {
 
@@ -18,18 +19,46 @@ export default function Track({ id, name, link, album, image, artists, length, p
         backendURL = 'http://localhost:8888';
     }
 
+    const toastId = useRef(null);
+
     const addTrack = (id) => {
+
+        toastId.current = toast.loading('Adding...', {
+            position: "top-center",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+        });
         
         axios.get(`${backendURL}/add-track/${id.id}`)
             .then(res => {
-                console.log("🚀 ~ file: Track.jsx ~ addTrack ~ res", res)
+                if(res.status === 200) {
+                    toast.update(toastId.current, {
+                        render: 'Song added to Liked Songs!',
+                        type: 'success',
+                        isLoading: false,
+                        autoClose: 3000,
+                    })
+                }
             })
             .catch(err => {
-                console.log("🚀 ~ file: Track.jsx ~ addTrack ~ err", err)
+                if(err.response.status === 400) {
+                    toast.update(toastId.current, {
+                        render: 'Error adding song. Please try again.',
+                        type: 'error',
+                        isLoading: false,
+                        autoClose: 3000,
+                    })
+                }
             })
     }
 
   return (
+    <div>
     <div className='px-24 w-screen flex flex-row shrink-0 justify-start items-center m-auto rounded-lg shadow-2xl'>
         <Avatar alt={name} src={image} variant='square' sx={{ width: 72, height: 72 }}/>
 
@@ -68,10 +97,8 @@ export default function Track({ id, name, link, album, image, artists, length, p
         }
 
         
-
-
-        
-
+    </div>
+    <ToastContainer />
     </div>
   )
 }
