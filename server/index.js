@@ -235,6 +235,7 @@ app.get('/add-track/:trackId', (req, res) => {
     spotifyApi.addToMySavedTracks([trackId])
         .then(data => {
             console.log('Added track!');
+            res.sendStatus(200);
         })
         .catch(err => {
             console.log("🚀 ~ file: server.js:239 ~ app.get add track ~ err:", err)
