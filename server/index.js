@@ -60,7 +60,7 @@ app.get('/login', (req, res) => {
     // user-top-read for top artists, etc.
     // user-read-private & user-read-email for profile info
     // use-read-playback-state for status
-    var scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-follow-read'];
+    var scopes = ['user-read-private', 'user-read-email', 'user-top-read', 'user-follow-read', 'user-library-modify'];
     var showDialog = true;
     res.redirect(spotifyApi.createAuthorizeURL(scopes, state, showDialog));
 });
@@ -190,6 +190,55 @@ app.get('/playlists', (req, res) => {
         })
         .catch(err => {
             console.log("🚀 ~ file: server.js:190 ~ app.get playlists ~ err:", err)
+        })
+});
+
+
+// get recommendations
+app.get('/recommendations', (req, res) => {
+
+    let seed_artists = [];
+
+    spotifyApi.getMyTopArtists()
+    .then(data => {
+        // console.log('top artists: ', data.body.items[0].id);
+        seed_artists.push(data.body.items[0].id);
+        seed_artists.push(data.body.items[1].id);
+
+        spotifyApi.getRecommendations({
+            seed_artists: seed_artists,
+            min_energy: 0.4,
+            min_popularity: 50,
+            limit: 5
+        })
+        .then(data => {
+            res.send(data.body.tracks);
+            // console.log('recommendations: ', data.body.tracks);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:209 ~ app.get recommendations ~ err:", err)
+        })
+
+    })
+    .catch(err => {
+        console.log("🚀 ~ file: server.js:147 ~ app.get top artists~ err:", err.message)
+    })
+});
+
+
+// add track to user's YOUR MUSIC library
+app.get('/add-track/:trackId', (req, res) => {
+
+    const trackId = req.params.trackId;
+    console.log('trackId: ', trackId)
+
+    spotifyApi.addToMySavedTracks([trackId])
+        .then(data => {
+            console.log('Added track!');
+            res.sendStatus(200);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:239 ~ app.get add track ~ err:", err)
         })
 })
 

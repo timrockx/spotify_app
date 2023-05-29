@@ -2,12 +2,15 @@ import { useState, useEffect } from 'react';
 import { Avatar } from '@mui/material';
 import axios from 'axios';
 import Playlist from './Playlist';
+import Track from './Track';
 
 export default function ProfileHeading({ id, name, image, link, followers, following }) {
 
     let backendURL = 'https://spotify-app-server.onrender.com';
 
     const [playlists, setPlaylists] = useState([]);
+    const [recommendations, setRecommendations] = useState([]);
+    const [showRecommendations, setShowRecommendations] = useState(false);
 
     useEffect(() => {
 
@@ -19,9 +22,20 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
             .catch(err => {
                 console.log("🚀 ~ file: ProfileHeading.jsx:22 ~ getplaylist ~ err", err)
             })
-        }
+        };
+
+        const getRecommendations = () => {
+            axios.get(`${backendURL}/recommendations`)
+            .then(res => {
+                setRecommendations(res.data);
+            })
+            .catch(err => {
+                console.log("🚀 ~ file: Profile.jsx:31 ~ getFollowing ~ err:", err);
+            })
+        };
 
         getPlaylists();
+        getRecommendations();
 
     }, []);
 
@@ -29,6 +43,10 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
     const logOut = () => {
         window.history.pushState({}, document.title, "/");
         window.location.reload();
+    };
+
+    const toggleRecommendations = () => {
+        setShowRecommendations(!showRecommendations);
     }
 
 
@@ -46,6 +64,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
             </div>
         </div>
 
+        {!showRecommendations ? 
         <div className='flex flex-row flex-wrap gap-y-4 justify-between items-center py-5 px-10'>
             {playlists?.slice(0, 4).map((playlist, index) => {
                 return (
@@ -55,11 +74,25 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
                 )
             })}
         </div>
+        : 
+        <div className='flex flex-col justify-center items-center'>
+            {recommendations?.map((rec, index) => {
+                return (
+                    <div key={index}>
+                        <Track id={rec.id} name={rec.name} link={rec.external_urls.spotify} album={rec.album.name} image={rec.album.images[0]?.url} artists={rec.artists} popularity={rec.popularity} />
+                    </div>
+                )
+            })}
+        </div>
+        }
 
-        <div className='flex justify-center items-center pt-8'>
-            <button className='text-white rounded-full border-solid border-white border-2 p-3 w-1/5 hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
-                Sign Out
+        <div className='flex flex-row justify-around items-center pt-8'>
+            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={toggleRecommendations}>
+                {showRecommendations ? 'Hide Recommendations' : 'Show Recommendations'}
             </button>
+            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
+                Sign Out
+            </button>            
         </div>
     </div>
   )
