@@ -64,7 +64,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
                 <h1 className='text-3xl text-white pl-5 pb-3 font-normal'>
                     <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a>
                 </h1>
-                <h3 className='pl-5 text-white text-center'><span className='font-bold'>{followers}</span> Followers <span className='font-bold'>&#183; {following}</span> Following</h3>
+                <h3 className='pl-5 text-[#D3D3D3] text-center'><span className='font-bold text-white'>{followers}</span> Followers <span className='font-bold text-white'>&#183; {following}</span> Following</h3>
             </div>
         </div>
 

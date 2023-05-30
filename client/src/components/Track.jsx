@@ -167,13 +167,13 @@ export default function Track({ id, name, link, album, image, artists, length, i
                 open={open}
                 onClose={handleClose}
             >
-                <div className='h-5/6 w-4/6 sm:w-4/6 md:w-4/6 lg:w-3/6 xl:w-5/12 xl:h-max m-auto bg-[#222222] bg-opacity-95 flex flex-col justify-center items-center mt-5 mb-72 rounded-xl p-24'>
+                <div className='w-4/6 sm:w-4/6 md:w-3/6 lg:w-3/6 xl:w-5/12 m-auto bg-[#222222] bg-opacity-95 flex flex-col justify-center items-center mt-5 xs:mt-12 sm:mt-24 md:mt-36 lg:mt-5 xl:mt-8 mb-72 rounded-xl px-20 pt-8 pb-4'>
                     
                     <div className='flex flex-row justify-center items-center border-b-white border-b-2 pb-5 mb-4'>
-                        <Avatar alt={name} src={image} variant='square' sx={{ width: 110, height: 110 }}/>
+                        <Avatar alt={name} src={image} variant='square' sx={{ width: 90, height: 90 }}/>
 
                         <div className='flex flex-col justify-center items-start px-5'>
-                            <h3 className='text-white text-2xl py-2 sm:text-md'>{name}</h3>
+                            <h3 className='text-white text-2xl py-2 xs:text-sm sm:text-md md:text-lg lg:text-xl'>{name}</h3>
                             
                             <div className='hidden lg:hidden md:hidden xl:flex flex-row justify-start items-center w-full'>
                                 {artists.slice(0,3)?.map((artist, index) => {
@@ -188,7 +188,11 @@ export default function Track({ id, name, link, album, image, artists, length, i
                                 
                                 <h1 className='text-white text-md'>&#183; {album}</h1>
                             </div>
-                        </div>      
+                        </div>
+
+                        <IconButton sx={{ color: '#1ED760' }} href={link} target='_blank'>
+                            <PlayCircleIcon fontSize='large' />
+                        </IconButton>      
                     </div>
 
                     <Doughnut data={data} plugins={[plugin]}/>
