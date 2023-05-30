@@ -8,6 +8,10 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
 
     let backendURL = 'https://spotify-app-server.onrender.com';
 
+    if(process.env.NODE_ENV !== 'production') {
+        backendURL = 'http://localhost:8888';
+    }
+
     const [playlists, setPlaylists] = useState([]);
     const [recommendations, setRecommendations] = useState([]);
     const [showRecommendations, setShowRecommendations] = useState(false);
@@ -65,7 +69,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
         </div>
 
         {!showRecommendations ? 
-        <div className='flex flex-row flex-wrap gap-y-4 justify-between items-center py-5 px-10'>
+        <div className='grid grid-cols-4 gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
             {playlists?.slice(0, 4).map((playlist, index) => {
                 return (
                     <div key={index}>

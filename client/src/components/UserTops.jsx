@@ -13,12 +13,16 @@ export default function UserTops() {
 
     // handle show more buttons for tracks are artists
     const [expandedArtists, setExpandedArtists] = useState(false);
-    const artistsDisplay = expandedArtists ? topArtists : topArtists.slice(0, 5);
+    const artistsDisplay = expandedArtists ? topArtists : topArtists.slice(0, 8);
 
     const [expandedTracks, setExpandedTracks] = useState(false);
     const tracksDisplay = expandedTracks ? topTracks : topTracks.slice(0, 5);
 
     let backendURL = 'https://spotify-app-server.onrender.com';
+
+    if(process.env.NODE_ENV !== 'production') {
+        backendURL = 'http://localhost:8888';
+    }
 
     useEffect(() => {
 
@@ -64,7 +68,7 @@ export default function UserTops() {
                     <h1 className='text-white text-4xl py-8'>Recent Top Artists</h1>
                 </div> */}
 
-                <div className='w-screen flex flex-row flex-wrap gap-y-4 justify-center items-center py-5 px-24'>
+                <div className='w-screen grid grid-cols-3 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5 px-24'>
                     {artistsDisplay?.map((artist, index) => {
                             return (
                                 <div key={index} className='px-5'>

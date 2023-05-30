@@ -9,7 +9,12 @@ export default function ({ accessToken }) {
     // profile object
     const [profile, setProfile] = useState(null);
     const [following, setFollowing] = useState(null);
+
     let backendURL = 'https://spotify-app-server.onrender.com';
+
+    if(process.env.NODE_ENV !== 'production') {
+        backendURL = 'http://localhost:8888';
+    }
 
     // on page load get the information of the signed in user
     useEffect(() => {

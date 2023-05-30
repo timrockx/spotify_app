@@ -6,6 +6,10 @@ export default function Login() {
     // const LOGIN_URI = 'http://localhost:8888/login';
     let backendURL = 'https://spotify-app-server.onrender.com';
 
+    if(process.env.NODE_ENV !== 'production') {
+        backendURL = 'http://localhost:8888';
+    }
+
     const LOGIN_URI = `${backendURL}/login`;
 
   return (

@@ -1,9 +1,11 @@
-import { useRef } from 'react';
-import { Avatar, Icon } from '@mui/material';
+import { useState, useRef, useEffect } from 'react';
+import { Avatar, IconButton, Modal } from '@mui/material';
 import axios from 'axios';
-import IconButton from '@mui/material/IconButton';
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 import { ToastContainer, toast } from 'react-toastify';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
 
 export default function Track({ id, name, link, album, image, artists, length, isRecommendation }) {
 
@@ -20,6 +22,26 @@ export default function Track({ id, name, link, album, image, artists, length, i
     }
 
     const toastId = useRef(null);
+
+    const [open, setOpen] = useState(false);
+    const handleOpen = (id) => {
+        setOpen(true);
+
+        console.log(id)
+        axios.get(`${backendURL}/audio-features/${id}`)
+            .then(res => {
+                console.log(res.data)
+                setAcousticness(res.data.acousticness)
+                setDanceability(res.data.danceability)
+                setEnergy(res.data.energy)
+                setValence(res.data.valence)
+            })
+            .catch(err => {
+                console.log('Error getting audio features')
+            })
+    }
+
+    const handleClose = () => setOpen(false);
 
     const addTrack = (id) => {
 
@@ -55,7 +77,51 @@ export default function Track({ id, name, link, album, image, artists, length, i
                     })
                 }
             })
-    }
+    };
+
+    const [acousticness, setAcousticness] = useState(0);
+    const [danceability, setDanceability] = useState(0);
+    const [energy, setEnergy] = useState(0);
+    const [valence, setValence] = useState(0);
+
+    ChartJS.register(ArcElement, Tooltip, Legend);
+
+    const data = {
+        labels: ['Acousticness', 'Danceability', 'Energy', 'Valence',],
+        datasets: [
+            {
+                data: [acousticness, danceability, energy, valence],
+                backgroundColor: [
+                    'purple',
+                    '#1ED760',
+                    '#0763e5',
+                    '#F88379',
+                ],
+                borderColor: [
+                    'purple',
+                    '#1ED760',
+                    '#0763e5',
+                    '#F88379',
+                ],
+                borderWidth: 1,
+            },
+        ],
+    };
+    const plugin = {
+        beforeInit(chart) {
+          console.log("be");
+          // reference of original fit function
+          const originalFit = chart.legend.fit;
+      
+          // override the fit function
+          chart.legend.fit = function fit() {
+            // call original function and bind scope in order to use `this` correctly inside it
+            originalFit.bind(chart.legend)();
+            // increase the width to add more space
+            this.height += 20;
+          };
+        }
+    };
 
   return (
     <div>
@@ -66,11 +132,12 @@ export default function Track({ id, name, link, album, image, artists, length, i
 
 
                 <h1 className='text-white text-xl py-2'>
-                    <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a>
+                    {/* <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a> */}
+                    <a onClick={() => handleOpen(id)} className='hover:text-[#1ED760]'>{name}</a>
                 </h1>
 
                 <div className='hidden md:flex flex-row justify-start items-center'>
-                    {artists?.map((artist, index) => {
+                    {artists.slice(0,3)?.map((artist, index) => {
                         return (
                             <div key={index}>
                                 <h2 className='text-white text-md px-1'>
@@ -95,6 +162,45 @@ export default function Track({ id, name, link, album, image, artists, length, i
                 <h1>{msToMinutesAndSeconds(length)}</h1>
             </div>
             }
+
+            <Modal
+                open={open}
+                onClose={handleClose}
+            >
+                <div className='h-5/6 w-4/6 sm:w-4/6 md:w-4/6 lg:w-3/6 xl:w-5/12 xl:h-max m-auto bg-[#222222] bg-opacity-95 flex flex-col justify-center items-center mt-5 mb-72 rounded-xl p-24'>
+                    
+                    <div className='flex flex-row justify-center items-center border-b-white border-b-2 pb-5 mb-4'>
+                        <Avatar alt={name} src={image} variant='square' sx={{ width: 110, height: 110 }}/>
+
+                        <div className='flex flex-col justify-center items-start px-5'>
+                            <h3 className='text-white text-2xl py-2 sm:text-md'>{name}</h3>
+                            
+                            <div className='hidden lg:hidden md:hidden xl:flex flex-row justify-start items-center w-full'>
+                                {artists.slice(0,3)?.map((artist, index) => {
+                                    return (
+                                        <div key={index}>
+                                            <h2 className='text-white text-md px-1'>
+                                                <a href={artist.external_urls.spotify} target='_blank' className='hover:underline hover:text-[#1ED760]'>{artist.name}</a>
+                                            </h2>
+                                        </div>
+                                    )
+                                })}
+                                
+                                <h1 className='text-white text-md'>&#183; {album}</h1>
+                            </div>
+                        </div>      
+                    </div>
+
+                    <Doughnut data={data} plugins={[plugin]}/>
+
+                    <div className='text-white text-center pt-3 hidden md:block lg:block xl:block'>
+                        <ul className='list-none text-white'>
+                            <li><em>Valence is a measure of musical positiveness.</em></li>
+                            <li><em>All measures range on a scale from 0.0 to 1.0.</em></li>
+                        </ul>
+                    </div>
+                </div>
+            </Modal>
 
             
         </div>
