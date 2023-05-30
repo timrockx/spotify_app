@@ -240,7 +240,24 @@ app.get('/add-track/:trackId', (req, res) => {
         .catch(err => {
             console.log("🚀 ~ file: server.js:239 ~ app.get add track ~ err:", err)
         })
-})
+});
+
+
+// get audio features of a track
+app.get('/audio-features/:trackId', (req, res) => {
+
+    const trackId = req.params.trackId;
+    // console.log(trackId);
+
+    spotifyApi.getAudioFeaturesForTrack([trackId])
+        .then(data => {
+            // console.log('audio features: ', data.body);
+            res.send(data.body);
+        })
+        .catch(err => {
+            console.log("🚀 ~ file: server.js:256 ~ app.get audio features ~ err:", err)
+        })
+});
 
 
 // app on port 8888
