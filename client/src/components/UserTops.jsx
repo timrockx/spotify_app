@@ -58,17 +58,14 @@ export default function UserTops() {
     <div className='flex flex-col px-40'>
 
         <Tabs selectedTabClassName='text-[#1ED760]' focusTabOnClick={false}>
-            <TabList className='text-3xl text-[#D3D3D3] text-center pb-8 flex justify-around items-center'>
+            <TabList className='text-2xl sm:max-xl:text-3xl text-[#D3D3D3] text-center pb-8 flex justify-around items-center'>
                 <Tab className='hover:scale-110 hover:cursor-pointer'>Top Artists</Tab>
                 <Tab className='hover:scale-110 hover:cursor-pointer'>Top Songs</Tab>
             </TabList>
 
             <TabPanel>
-                {/* <div className='flex flex-col justify-center items-center'>
-                    <h1 className='text-white text-4xl py-8'>Recent Top Artists</h1>
-                </div> */}
 
-                <div className='w-screen grid grid-cols-3 xs:grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5 px-24'>
+                <div className='w-screen grid grid-cols-1 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5 py-5 px-0 sm:max-xl:px-24'>
                     {artistsDisplay?.map((artist, index) => {
                             return (
                                 <div key={index} className='px-5'>
@@ -86,10 +83,6 @@ export default function UserTops() {
             </TabPanel>
 
             <TabPanel>
-                {/* <div className='flex flex-col justify-center items-center'>
-                    <h1 className='text-white text-4xl py-8'>Recent Top Songs</h1>
-                </div> */}
-
                 <div className='w-screen shrink-0 flex flex-col flex-wrap gap-y-4 justify-start items-start'>
                     {tracksDisplay?.map((track, index) => {
                         return (

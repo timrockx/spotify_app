@@ -125,13 +125,13 @@ export default function Track({ id, name, link, album, image, artists, length, i
 
   return (
     <div>
-        <div className='px-24 w-screen flex flex-row shrink-0 justify-start items-center m-auto rounded-lg shadow-2xl'>
+        <div className='px-24 w-screen min-h-[100px] flex flex-row shrink-0 justify-start items-center m-auto rounded-lg shadow-2xl'>
             <Avatar alt={name} src={image} variant='square' sx={{ width: 72, height: 72 }}/>
 
             <div className='flex flex-col justify-start items-start w-full p-5'>
 
 
-                <h1 className='text-white text-xl py-2'>
+                <h1 className='text-white text-md sm:max-xl:text-xl py-2'>
                     {/* <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a> */}
                     <a onClick={() => handleOpen(id)} className='hover:text-[#1ED760]'>{name}</a>
                 </h1>
@@ -152,13 +152,13 @@ export default function Track({ id, name, link, album, image, artists, length, i
             </div>
 
             {!length  ? 
-            <div className='text-white flex flex-col justify-center items-center p-5'>
+            <div className='text-white flex flex-col justify-center items-end p-5'>
                 <IconButton onClick={() => {addTrack({id})}} >
                     <AddCircleOutlineIcon sx={{ color: 'white', "&:hover": {color: '#1ED760', scale: '1.3'} }} />
                 </IconButton>
             </div>
             :
-            <div className='text-white flex justify-center items-center px-5'>
+            <div className='text-white hidden sm:flex justify-center items-center px-5'>
                 <h1>{msToMinutesAndSeconds(length)}</h1>
             </div>
             }
@@ -167,13 +167,13 @@ export default function Track({ id, name, link, album, image, artists, length, i
                 open={open}
                 onClose={handleClose}
             >
-                <div className='w-4/6 sm:w-4/6 md:w-3/6 lg:w-3/6 xl:w-5/12 m-auto bg-[#222222] bg-opacity-95 flex flex-col justify-center items-center mt-5 xs:mt-12 sm:mt-24 md:mt-36 lg:mt-5 xl:mt-8 mb-72 rounded-xl px-20 pt-8 pb-4'>
+                <div className='w-11/12 sm:w-4/6 md:w-3/6 lg:w-3/6 xl:w-5/12 m-auto bg-[#222222] bg-opacity-95 flex flex-col justify-center items-center mt-5 xs:mt-12 sm:mt-24 md:mt-36 lg:mt-5 xl:mt-8 mb-72 rounded-xl px-20 pt-8 pb-4'>
                     
                     <div className='flex flex-row justify-center items-center border-b-white border-b-2 pb-5 mb-4'>
                         <Avatar alt={name} src={image} variant='square' sx={{ width: 90, height: 90 }}/>
 
                         <div className='flex flex-col justify-center items-start px-5'>
-                            <h3 className='text-white text-2xl py-2 xs:text-sm sm:text-md md:text-lg lg:text-xl'>{name}</h3>
+                            <h3 className='text-white text-md sm:max-xl:text-xl py-2 xs:text-sm sm:text-md md:text-lg lg:text-xl'>{name}</h3>
                             
                             <div className='hidden lg:hidden md:hidden xl:flex flex-row justify-start items-center w-full'>
                                 {artists.slice(0,3)?.map((artist, index) => {
@@ -197,7 +197,7 @@ export default function Track({ id, name, link, album, image, artists, length, i
 
                     <Doughnut data={data} plugins={[plugin]}/>
 
-                    <div className='text-white text-center pt-3 hidden md:block lg:block xl:block'>
+                    <div className='text-white text-center pt-3 xs:max-sm:hidden md:block lg:block xl:block'>
                         <ul className='list-none text-white'>
                             <li><em>Valence is a measure of musical positiveness.</em></li>
                             <li><em>All measures range on a scale from 0.0 to 1.0.</em></li>

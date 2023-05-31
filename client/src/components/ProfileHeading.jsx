@@ -57,19 +57,19 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
 
   return (
     <div className='bg-[#1b1b1b] my-2 rounded-xl w-3/4 h-1/4 p-6 flex flex-col justify-center items-cente shadow-lg mb-10'>
-        <div className='flex flex-row justify-center m-auto'>
+        <div className='flex flex-row justify-center m-auto pb-5'>
             <Avatar alt={name} src={image} sx={{ width: 92, height: 92 }} />
 
             <div className='flex flex-col justify-center items-start'>
-                <h1 className='text-3xl text-white pl-5 pb-3 font-normal'>
+                <h1 className='text-lg sm:text-3xl md:text-3xl lg:text-3xl xl:text-3xl text-white pl-5 pb-3 font-normal'>
                     <a href={link} target='_blank' className='hover:text-[#1ED760]'>{name}</a>
                 </h1>
-                <h3 className='pl-5 text-[#D3D3D3] text-center'><span className='font-bold text-white'>{followers}</span> Followers <span className='font-bold text-white'>&#183; {following}</span> Following</h3>
+                <h3 className='pl-5 text-[#D3D3D3] text-center text-xs sm:text-lg md:text-md lg:text-md xl:text-md'><span className='font-bold text-white'>{followers}</span> Followers <span className='font-bold text-white'>&#183; {following}</span> Following</h3>
             </div>
         </div>
 
         {!showRecommendations ? 
-        <div className='grid grid-cols-4 gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
+        <div className='grid grid-cols-1 xl:grid-cols-4 gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4'>
             {playlists?.slice(0, 4).map((playlist, index) => {
                 return (
                     <div key={index}>
@@ -91,10 +91,10 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
         }
 
         <div className='flex flex-row justify-around items-center pt-8'>
-            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={toggleRecommendations}>
+            <button className='text-white text-sm sm:max-xl:text-base rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black mx-3' onClick={toggleRecommendations}>
                 {showRecommendations ? 'Hide Recommendations' : 'Show Recommendations'}
             </button>
-            <button className='text-white rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
+            <button className='text-white text-sm sm:max-xl:text-base rounded-full border-solid border-white border-2 py-3 px-7 w-fit hover:bg-[#1ED760] hover:text-black hover:border-black' onClick={logOut}>
                 Sign Out
             </button>            
         </div>
