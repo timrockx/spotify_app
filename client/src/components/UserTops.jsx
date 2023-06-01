@@ -4,6 +4,7 @@ import 'react-tabs/style/react-tabs.css';
 import axios from 'axios';
 import Artist from './Artist';
 import Track from './Track';
+import Error from './Error';
 
 export default function UserTops() {
 
@@ -24,6 +25,8 @@ export default function UserTops() {
         backendURL = 'http://localhost:8888';
     }
 
+    const [isError, setIsError] = useState(false);
+
     useEffect(() => {
 
         // console.log(process.env)
@@ -34,7 +37,8 @@ export default function UserTops() {
                     setTopArtists(res.data);
                 })
                 .catch(err => {
-                    console.log("🚀 ~ file: Profile.jsx:34 ~ getArtists ~ err", err)
+                    console.log("🚀 ~ file: Profile.jsx:34 ~ getArtists ~ err", err);
+                    setIsError(true);
                 })
         };
 
@@ -44,10 +48,10 @@ export default function UserTops() {
                     setTopTracks(res.data);
                 })
                 .catch(err => {
-                    console.log("🚀 ~ file: Profile.jsx:34 ~ getTracks ~ err", err)
+                    console.log("🚀 ~ file: Profile.jsx:34 ~ getTracks ~ err", err);
+                    setIsError(true);
                 })
-
-        }
+        };
 
         getArtists();
         getTracks();
@@ -55,6 +59,9 @@ export default function UserTops() {
     }, []);
 
   return (
+    isError ?
+        <Error />
+    :
     <div className='flex flex-col px-40'>
 
         <Tabs selectedTabClassName='text-[#1ED760]' focusTabOnClick={false}>

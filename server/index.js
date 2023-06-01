@@ -119,6 +119,7 @@ app.get('/me', (req, res) => {
             res.send(data.body);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:106 ~ app.get me ~ err:", err)
         })
 });
@@ -133,6 +134,7 @@ app.get('/following', (req, res) => {
             res.send(data.body);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:120 ~ app.get following ~ err:", err)
         })
 })
@@ -146,6 +148,7 @@ app.get('/playback-state', (req, res) => {
             res.send(data.body.device);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:133 ~ app.get playback ~ err:", err)
         })
 });
@@ -160,6 +163,7 @@ app.get('/top-artists', (req, res) => {
             res.send(data.body.items);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:147 ~ app.get top artists~ err:", err.message)
         })
 });
@@ -189,6 +193,7 @@ app.get('/playlists', (req, res) => {
             res.send(data.body.items);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:190 ~ app.get playlists ~ err:", err)
         })
 });
@@ -216,11 +221,13 @@ app.get('/recommendations', (req, res) => {
             // console.log('recommendations: ', data.body.tracks);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:209 ~ app.get recommendations ~ err:", err)
         })
 
     })
     .catch(err => {
+        res.status(400).send(err);
         console.log("🚀 ~ file: server.js:147 ~ app.get top artists~ err:", err.message)
     })
 });
@@ -255,6 +262,7 @@ app.get('/audio-features/:trackId', (req, res) => {
             res.send(data.body);
         })
         .catch(err => {
+            res.status(400).send(err);
             console.log("🚀 ~ file: server.js:256 ~ app.get audio features ~ err:", err)
         })
 });

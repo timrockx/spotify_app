@@ -3,6 +3,7 @@ import { Avatar } from '@mui/material';
 import axios from 'axios';
 import Playlist from './Playlist';
 import Track from './Track';
+import Error from './Error';
 
 export default function ProfileHeading({ id, name, image, link, followers, following }) {
 
@@ -16,6 +17,8 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
     const [recommendations, setRecommendations] = useState([]);
     const [showRecommendations, setShowRecommendations] = useState(false);
 
+    const [isError, setIsError] = useState(false);
+
     useEffect(() => {
 
         const getPlaylists = () => {
@@ -24,7 +27,8 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
                 setPlaylists(res.data);
             })
             .catch(err => {
-                console.log("🚀 ~ file: ProfileHeading.jsx:22 ~ getplaylist ~ err", err)
+                console.log("🚀 ~ file: ProfileHeading.jsx:22 ~ getplaylist ~ err", err);
+                setIsError(true);
             })
         };
 
@@ -35,6 +39,7 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
             })
             .catch(err => {
                 console.log("🚀 ~ file: Profile.jsx:31 ~ getFollowing ~ err:", err);
+                setIsError(true);
             })
         };
 
@@ -56,6 +61,9 @@ export default function ProfileHeading({ id, name, image, link, followers, follo
 
 
   return (
+    isError ?
+        <Error />
+    :
     <div className='bg-[#1b1b1b] my-2 rounded-xl w-3/4 h-1/4 p-6 flex flex-col justify-center items-cente shadow-lg mb-10'>
         <div className='flex flex-row justify-center m-auto pb-5'>
             <Avatar alt={name} src={image} sx={{ width: 92, height: 92 }} />

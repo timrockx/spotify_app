@@ -3,6 +3,7 @@ import { Button } from '@mui/material';
 import axios from 'axios';
 import ProfileHeading from './ProfileHeading';
 import UserTops from './UserTops';
+import Error from './Error';
 
 export default function ({ accessToken }) {
 
@@ -16,6 +17,8 @@ export default function ({ accessToken }) {
         backendURL = 'http://localhost:8888';
     }
 
+    const [isError, setIsError] = useState(false);
+
     // on page load get the information of the signed in user
     useEffect(() => {
         const getProfile = async() => {
@@ -24,7 +27,8 @@ export default function ({ accessToken }) {
                 setProfile(res.data);
             })
             .catch(err => {
-                console.log("🚀 ~ file: Profile.jsx:27 ~ getProfile ~ err:", err);
+                setIsError(true);
+                console.log("🚀 ~ file: Profile.jsx:27 ~ getProfile ~ err:", err.status);
             })
         };
 
@@ -34,7 +38,8 @@ export default function ({ accessToken }) {
                 setFollowing(res.data.artists.items.length);
             })
             .catch(err => {
-                console.log("🚀 ~ file: Profile.jsx:31 ~ getFollowing ~ err:", err);
+                console.log("🚀 ~ file: Profile.jsx:31 ~ getFollowing ~ err:", err.response.status);
+                setIsError(true);
             })
         }
 
@@ -45,6 +50,9 @@ export default function ({ accessToken }) {
 
 
   return (
+    isError ? 
+        <Error />
+    :
     <div className='min-h-screen min-w-screen bg-[#1b1b1b] overflow-hidden'>
 
         <div className='flex flex-col justify-center items-center'>
